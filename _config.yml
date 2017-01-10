@@ -16,7 +16,7 @@
 title: Ian C MacDonald
 description: > # this means to ignore newlines until "baseurl:"
   Lift. Code. Repeat.
-baseurl: "blog" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://iancmacdonald.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: matchbookmac
 github_username:  matchbookmac
