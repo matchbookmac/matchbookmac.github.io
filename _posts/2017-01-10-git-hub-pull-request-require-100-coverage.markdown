@@ -7,8 +7,7 @@ categories: first_post github devops cicd bash
 
 Yesterday we got our API code up to 100% code coverage. For me, it's one of those things that once you get there, you
 really don't want to lose it again. We use [Code Climate's](https://codeclimate.com) Github integration to ensure that
-our coverage is at least above 90%, but as far as I know there is no way to configure that number to ensure that it
-stays at 100%.
+our coverage is at least above 90%, but as far as I know there is no way to set that requirement at 100%.
 
 The CI/CD system that we use is [Atlassian Bamboo](https://www.atlassian.com/software/bamboo), and it allows for
 arbitrary shell scripts to be run during a build. Currently we use that functionality to send updates to the Github API
@@ -32,7 +31,7 @@ else
 fi
 ```
 
-I figured, it shouldn't be a far reach to do something similar for code coverage. So, I did some digging in the
+I figured it shouldn't be a far reach to do something similar for code coverage. So, I did some digging in the
 `/coverage` directory of our project and saw: `.last_run.json`, and inside:
 
 ``` json
