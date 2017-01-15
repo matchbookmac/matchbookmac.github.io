@@ -9,7 +9,7 @@ I've been following the tmux trail in [thoughtbot's Upcase](https://thoughtbot.c
 Chris integrates tmux copy-mode with the macOS system clipboard (`pbcopy`/`pbpaste`)
 The issue he was dealing with is that, of the box, tmux doesn't integrate nicely with macOS `pbcopy` and `pbpaste`.
 His solution was to update his tmux.conf to use some vim key bindings and inline shell scripting to talk to
-`pbcopy`/`pbpaste`. I am conversant in vim, but my main editor is emacs, so I decide to branch out from the tutorial at
+`pbcopy`/`pbpaste`. I am conversant in vim, but my main editor is emacs, so I decided to branch out from the tutorial at
 that point and figure out how to do the same thing he was doing, but with emacs bindings. In addition to that, when
 running I was running an emacs client inside of a tmux session, the emacs copy and paste functionality via the kill-ring
 was not working as expected.
