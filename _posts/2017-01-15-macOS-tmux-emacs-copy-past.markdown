@@ -11,7 +11,7 @@ The issue he was dealing with is that, of the box, tmux doesn't integrate nicely
 His solution was to update his tmux.conf to use some vim key bindings and inline shell scripting to talk to
 `pbcopy`/`pbpaste`. I am conversant in vim, but my main editor is emacs, so I decided to branch out from the tutorial at
 that point and figure out how to do the same thing he was doing, but with emacs bindings. In addition to that, when
-running I was running an emacs client inside of a tmux session, the emacs copy and paste functionality via the kill-ring
+I was running an emacs client inside of a tmux session, the emacs copy and paste functionality via the kill-ring
 was not working as expected.
 
 I first decided to tackle copy/paste integration for just tmux and macOS. I figured that maybe lessons learned there
@@ -26,7 +26,7 @@ Chris', I came up with this:
 
 ``` shell
 # tmux.conf
-# execute new window loging under reattach-to-user-namespace
+# execute new window login under reattach-to-user-namespace
 set-option -g default-command "reattach-to-user-namespace -l bash"
 
 # use copy-pipe to pipe selection from tmux copy-mode to pbcopy, using reattach-to-user-namespace
@@ -49,7 +49,7 @@ an emacs client inside of tmux. The first solution I came up with was not ideal.
 paste command `C-y`, and used `pbpaste` to `cat` the result via a tmux buffer into the emacs client. This _worked_, but
 it had the downside that, depending on the size of the paste performed, calling an undo (`C-/`) would only undo chunks
 of the paste instead of the whole thing, because tmux was "typing" the characters from the buffer into the emacs client
-instead of using emacs kill-ring functionality:
+instead of using emacs' kill-ring functionality:
 
 ``` shell
 bind-key -n -t emacs-copy M-w copy-pipe "reattach-to-user-namespace pbcopy"
