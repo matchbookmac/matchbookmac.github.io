@@ -6,20 +6,22 @@ categories: macOS emacs tmux
 ---
 
 I've been following the tmux trail in [thoughtbot's Upcase](https://thoughtbot.com/upcase), and I got to the part where
-Chris integrates tmux copy-mode with the macOS system clipboard (`pbcopy`/`pbpaste`) via some vim key bindings.
-I am conversant in vim, but my main editor is emacs, and I'd like to keep things as consistent as possible across
-the board. Also, `readline` uses emacs keybindings, and macOS supports basic emacs navigation through text via
-`C-a`, `C-e`, `M-b`, `M-f`, etc. In addition to that, emacs copy and paste functionality was not working when running
-emacs inside of a tmux session.
+Chris integrates tmux copy-mode with the macOS system clipboard (`pbcopy`/`pbpaste`)
+The issue he was dealing with is that, of the box, tmux doesn't integrate nicely with macOS `pbcopy` and `pbpaste`.
+His solution was to update his tmux.conf to use some vim key bindings and inline shell scripting to talk to
+`pbcopy`/`pbpaste`. I am conversant in vim, but my main editor is emacs, so I decide to branch out from the tutorial at
+that point and figure out how to do the same thing he was doing, but with emacs bindings. In addition to that, when
+running I was running an emacs client inside of a tmux session, the emacs copy and paste functionality via the kill-ring
+was not working as expected.
 
-Out of the box, tmux (1.8) uses emacs key bindings as well, the issue is that tmux doesn't integrate nicely with
-`pbcopy` and `pbpaste`. Chris used [`reattach-to-user-namespace`](https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard)
-as part of the solution to get his vim-like bindings working, so I went ahead and did
-`brew install reattach-to-user-namespace`. The author of `reattach-to-user-namespace` also did a good job of documenting
-why tmux and `pbcopy`/`pbpaste` don't play nicely, so you can peruse the README in the link above instead of me trying
-to explain it here.
+I first decided to tackle copy/paste integration for just tmux and macOS. I figured that maybe lessons learned there
+could be applied to my emacs client issues as well. Chris used
+[`reattach-to-user-namespace`](https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard) as part of the solution to get
+his vim-like bindings working, so I went ahead and did `brew install reattach-to-user-namespace`. The author of
+`reattach-to-user-namespace` also did a good job of documenting why tmux and `pbcopy`/`pbpaste` don't play nicely,
+so you can peruse the README in the link above instead of me trying to explain it here.
 
-After I installed `reattach-to-user-namespace`, it was time to build by tmux copy-mode configuration. Basing it off of
+After I installed `reattach-to-user-namespace`, it was time to build my tmux copy-mode configuration. Basing it off of
 Chris', I came up with this:
 
 ``` shell
@@ -40,7 +42,7 @@ bind ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux past
 ```
 
 Now when in tmux copy-mode, my copy commands work as expected, and I can paste the results into applications outside of
-my terminal.
+my terminal!
 
 Having resolved my issues with tmux copy and paste, it was time to tackle my emacs copy and paste issues when running
 an emacs client inside of tmux. The first solution I came up with was not ideal. In effect, tmux intercepted my usual emacs
@@ -55,7 +57,7 @@ bind-key -n C-y run "pbpaste | tmux load-buffer - ; tmux paste-buffer -r"
 ```
 
 I was pretty unhappy with this solution, then I remembered that I was already doing some sorcery in my init.el for emacs
-to get it to integrate the kill-ring with `pbcopy`, and that I might be able to handle the tmux integration there
+to get it to integrate the kill-ring with `pbcopy`/`pbpaste`, and that I might be able to handle the integration there
 instead of in my `tmux.conf`. Before making any changes, this is what I had in init.el:
 
 ``` emacs-lisp
