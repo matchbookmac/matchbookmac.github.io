@@ -2,6 +2,7 @@
 layout: post
 title:  "macOS, Tmux and Emacs: Copy and Paste"
 date:   2017-01-15 14:40:03 -0800
+comments: true
 categories: macOS emacs tmux
 ---
 
