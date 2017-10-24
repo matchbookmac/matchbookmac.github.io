@@ -99,3 +99,18 @@ Both functions are shelling out to use the `pbcopy` and `pbpaste` commands, so w
 It worked! Now I can use emacs inside of a tmux session, use emacs' kill-ring to yank some text, paste that
 text into an application outside of the terminal, and my undo functionality works as expected. Hopefully this helps
 someone else out there looking to use the session management of tmux combined with the editing power of emacs.
+
+### Update (10/24/17)
+
+I upgraded tmux to 2.5 and my keybindings stopped working. Looks like there were some changes to the copy-mode
+implementation that caused this: https://github.com/tmux/tmux/blob/master/CHANGES. I was able to get around the
+issue by changing my keybindings to the following:
+
+```shell
+unbind -T copy-mode 'C-w'
+unbind -T copy-mode 'M-w'
+unbind -T copy-mode Enter
+bind-key -T copy-mode 'C-w' send -X copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode 'M-w' send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode Enter send -X copy-pipe "reattach-to-user-namespace pbcopy"
+```
